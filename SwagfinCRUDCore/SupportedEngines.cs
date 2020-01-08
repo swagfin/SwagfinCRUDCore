@@ -10,8 +10,7 @@ namespace SwagfinCRUDCore
         public string Engine_Info { get; set; }
         public ILanguageModelGenerator ModelGenerator { get; set; }
         public string ModelSaveExtension { get; set; }
-        public string ModelSaveSubFolder { get; set; } = "Models";
-        public bool IsSingleClass { get; set; } = false;
+        public string ModelSaveSubFolder { get; set; } = "Models\\";
         public List<SupportedEngineDependancy> Dependancies { get; set; }
 
         #region Get_SupportedEngines | Registering Supported Engine
@@ -28,7 +27,7 @@ namespace SwagfinCRUDCore
                     Engine_Name = "C# Entities/Model Classes Generator",
                     Engine_Info = "Generate Entity classes from the Database",
                     ModelSaveExtension=".cs",
-                    ModelSaveSubFolder="Entity",
+                    ModelSaveSubFolder="Entity\\",
                     ModelGenerator = new CSharpPlainEntityGenerator(),
                     Dependancies = new List<SupportedEngineDependancy>()
                 },
@@ -38,7 +37,7 @@ namespace SwagfinCRUDCore
                     Engine_Name = "C# Interface/Repository Services Generator",
                     Engine_Info = "Generate Interface/Repository/Services classes from Database to help you loose couple your system logics",
                     ModelSaveExtension="Service.cs",
-                    ModelSaveSubFolder="Services",
+                    ModelSaveSubFolder="Services\\I",
                     ModelGenerator = new CSharpServicesGenerator(),
                     Dependancies = new List<SupportedEngineDependancy>()
                 },
@@ -48,7 +47,7 @@ namespace SwagfinCRUDCore
                     Engine_Name = "C# Interface/Repository Services Implementation Generator",
                     Engine_Info = "Generate Implementations for the interface repository that you have already generated from your database.",
                     ModelSaveExtension="Service.cs",
-                    ModelSaveSubFolder="Services\\Implementations",
+                    ModelSaveSubFolder="Services\\Implementations\\",
                     ModelGenerator = new CSharpServicesImplementationGenerator(),
                     Dependancies = new List<SupportedEngineDependancy>()
                 },
@@ -56,9 +55,9 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "CONLYSERVICESIMPLEMENTATIONEF",
                     Engine_Name = "C# Entity Framework Interface/Repository Services Implementation (.NET Core Support) Generator",
-                    Engine_Info = "Generate Entity Framework Implementations for the interface repository that you have already generated. Note! You must have .DataAccess of ApplicationDbContext",
+                    Engine_Info = "Generate Entity Framework Implementations for the interface repository that you have already generated.",
                     ModelSaveExtension="Service.cs",
-                    ModelSaveSubFolder="Services\\Implementations",
+                    ModelSaveSubFolder="Services\\Implementations\\",
                     ModelGenerator = new CSharpServicesImpEFCoreGenerator(),
                     Dependancies = new List<SupportedEngineDependancy>()
                 },

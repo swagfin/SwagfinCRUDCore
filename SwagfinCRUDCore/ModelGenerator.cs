@@ -10,13 +10,16 @@ namespace SwagfinCRUDCore
         protected SupportedEngine SupportedDBEngine { get; set; }
         protected string[] DatabaseNameExceptions { get; set; }
         public static string ModelNamespace { get; set; }
+        public static bool SingularizeTableNames { get; set; } = false;
 
 
-        public ModelGenerator(DatabaseConfiguration databaseConfig, SupportedEngine supportedDBEngine, string modelNameSpace = "SwagfinGrud", string[] databaseNamesExceptions = null)
+        public ModelGenerator(DatabaseConfiguration databaseConfig, SupportedEngine supportedDBEngine, string modelNameSpace = "SwagfinGrud", string[] databaseNamesExceptions = null, bool singularizeTableNames = false)
         {
             this.DBConfiguration = databaseConfig;
             this.SupportedDBEngine = supportedDBEngine;
+
             ModelNamespace = modelNameSpace;
+            SingularizeTableNames = singularizeTableNames;
             //Load Exceptions Received
             if (databaseNamesExceptions == null) { this.DatabaseNameExceptions = Get_DefaultDBName_Exceptions(); }
             else { this.DatabaseNameExceptions = databaseNamesExceptions; }
@@ -407,11 +410,11 @@ namespace SwagfinCRUDCore
                     SanitizedModelDesign = this.SupportedDBEngine.ModelGenerator.Get_GeneratedModel(CurrentTableWithColumns, ModelNamespace),
                     SupportedEngineName = this.SupportedDBEngine.Engine_Name,
                     TargetedDatabase = CurrentTableWithColumns.Database_Name,
-                    SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + "\\" + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
+                    SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
                     DateTimeGenerated = DateTime.Now
                 };
-                if (this.SupportedDBEngine.IsSingleClass)
-                    objectSupport.SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + "\\" + SupportedDBEngine.ModelSaveExtension;
+                if (SingularizeTableNames)
+                    objectSupport.SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + DataHelpers.ReplaceLastChar(CurrentTableWithColumns.Model_name) + SupportedDBEngine.ModelSaveExtension;
 
                 return objectSupport;
             }
@@ -433,15 +436,23 @@ namespace SwagfinCRUDCore
                 //Loop Tables
                 foreach (TableDesign CurrentTableWithColumns in ListOfTablesWithItsColumns)
                 {
-
-                    all_models.Add(new GeneratedModelTemplate
+                    var objectSupport = new GeneratedModelTemplate
                     {
                         SanitizedModelDesign = this.SupportedDBEngine.ModelGenerator.Get_GeneratedModel(CurrentTableWithColumns, ModelNamespace),
                         SupportedEngineName = this.SupportedDBEngine.Engine_Name,
                         TargetedDatabase = CurrentTableWithColumns.Database_Name,
-                        SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + "\\" + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
+                        SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
                         DateTimeGenerated = DateTime.Now
-                    });
+                    };
+
+                    //Check
+                    if (SingularizeTableNames)
+                        objectSupport.SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + DataHelpers.ReplaceLastChar(CurrentTableWithColumns.Model_name) + SupportedDBEngine.ModelSaveExtension;
+
+                    all_models.Add(objectSupport);
+
+
+
                 }
 
             }

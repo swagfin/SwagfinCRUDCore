@@ -14,7 +14,15 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
             string FINALE_DATA = "";
             try
             {
+
+                //Check Name
+                string className = CurrentTableWithColumns.Table_name;
+                if (ModelGenerator.SingularizeTableNames)
+                    className = DataHelpers.ReplaceLastChar(className);
+
+
                 string IMPORTS_STRING = @"
+using {namespace}.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -92,8 +100,8 @@ namespace {namespace}.Services.Implementations
 
                 //Replacing
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{namespace}", ModelNameSpace.ToString().Trim());
-                IMPORTS_STRING = IMPORTS_STRING.Replace("{Table_name}", DataHelpers.Capitalize_FChar(CurrentTableWithColumns.Table_name));
-                IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", CurrentTableWithColumns.Table_name);
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{Table_name}", DataHelpers.Capitalize_FChar(className));
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", className);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{unique_identifier_datatype_ide}", CurrentTableWithColumns.Unique_identifier_datatype_ide);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{unique_identifier}", CurrentTableWithColumns.Unique_identifier);
 

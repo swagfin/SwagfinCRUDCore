@@ -14,28 +14,33 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
             string FINALE_DATA = "";
             try
             {
+                //Check Name
+                string className = CurrentTableWithColumns.Table_name;
+                if (ModelGenerator.SingularizeTableNames)
+                    className = DataHelpers.ReplaceLastChar(className);
+
                 string IMPORTS_STRING = @"
+using {namespace}.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace {namespace}.Services
 {
     public interface I{Table_name}Service
     {
-        void Add{Table_name}({Table_name} {table_name});
-        Task Add{Table_name}Async({Table_name} {table_name});
-        IEnumerable<{Table_name}> GetAll{Table_name}();
-        Task<IEnumerable<{Table_name}>> GetAll{Table_name}Async();
-        {Table_name} Get{Table_name}({unique_identifier_datatype_ide} {unique_identifier});
-        Task<{Table_name}> Get{Table_name}Async({unique_identifier_datatype_ide} {unique_identifier}); 
-        void Update{Table_name}({Table_name} {table_name});
-        Task Update{Table_name}Async({Table_name} {table_name});
-        void Remove{Table_name}({unique_identifier_datatype_ide} {unique_identifier});
-        Task Remove{Table_name}Async({unique_identifier_datatype_ide} {unique_identifier});
-        void Remove{Table_name}({Table_name} {table_name});
-        Task Remove{Table_name}Async({Table_name} {table_name});	
+        void Add({Table_name} {table_name});
+        Task AddAsync({Table_name} {table_name});
+        IEnumerable<{Table_name}> GetAll();
+        Task<IEnumerable<{Table_name}>> GetAllAsync();
+        {Table_name} Get({unique_identifier_datatype_ide} {unique_identifier});
+        Task<{Table_name}> GetAsync({unique_identifier_datatype_ide} {unique_identifier}); 
+        void Update({Table_name} {table_name});
+        Task UpdateAsync({Table_name} {table_name});
+        void Remove({unique_identifier_datatype_ide} {unique_identifier});
+        Task RemoveAsync({unique_identifier_datatype_ide} {unique_identifier});
+        void Remove({Table_name} {table_name});
+        Task RemoveAsync({Table_name} {table_name});	
 		
 	}
 	
@@ -45,8 +50,8 @@ namespace {namespace}.Services
 
                 //Replacing
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{namespace}", ModelNameSpace.ToString().Trim());
-                IMPORTS_STRING = IMPORTS_STRING.Replace("{Table_name}", DataHelpers.Capitalize_FChar(CurrentTableWithColumns.Table_name));
-                IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", CurrentTableWithColumns.Table_name);
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{Table_name}", DataHelpers.Capitalize_FChar(className));
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", className);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{unique_identifier_datatype_ide}", CurrentTableWithColumns.Unique_identifier_datatype_ide);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{unique_identifier}", CurrentTableWithColumns.Unique_identifier);
 

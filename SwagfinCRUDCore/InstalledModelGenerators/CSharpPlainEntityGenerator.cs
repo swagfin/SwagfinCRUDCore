@@ -11,30 +11,48 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
         public string Get_GeneratedModel(TableDesign CurrentTableWithColumns, string ModelNameSpace = "swagfin.Models")
         {
 
+
+
             string FINALE_DATA = "";
             try
             {
-                string IMPORTS_STRING = "";
-                // #Determine Imports
-                IMPORTS_STRING = "using System;" + Environment.NewLine;
-                IMPORTS_STRING += "using System.Data;" + Environment.NewLine;
-                IMPORTS_STRING += "using System.Collections;" + Environment.NewLine;
-                IMPORTS_STRING += "using System.Collections.Generic;" + Environment.NewLine;
+                //Check Name
+                string className = CurrentTableWithColumns.Table_name;
+                if (ModelGenerator.SingularizeTableNames)
+                    className = DataHelpers.ReplaceLastChar(className);
 
-                IMPORTS_STRING += Environment.NewLine + "namespace " + ModelNameSpace.ToString().Trim() + ".Entity" + Environment.NewLine + "{";
 
-                string ALLTEXT = Environment.NewLine + "    public class " + CurrentTableWithColumns.Model_name + Environment.NewLine + "   {";
-                // >>>>>SKip #OVERLOAD VARIABLES
+                string IMPORTS_STRING = @"
+using System;
+using System.Data;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace {namespace}.Entity
+{
+
+    public class {Table_name}
+   {
+    //{ClassProperties}
+   }
+
+}
+";
+
+                string classProperties = string.Empty;
                 foreach (TableColumn row in CurrentTableWithColumns.Table_Columns)
                 {
-                    ALLTEXT += Environment.NewLine + "      public " + row.Column_datatype_ide + " " + row.Column_name + " { get; set; }";
+                    classProperties += Environment.NewLine + "      public " + row.Column_datatype_ide + " " + row.Column_name + " { get; set; }";
                 }
-                //---->>Member Properties
 
-                ALLTEXT += Environment.NewLine + "  }" + Environment.NewLine;
+                //Replaces
+                IMPORTS_STRING = IMPORTS_STRING.Replace("//{ClassProperties}", classProperties);
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{namespace}", ModelNameSpace.ToString().Trim());
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{Table_name}", DataHelpers.Capitalize_FChar(className));
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", className);
 
-                // #FINALLE DATA |End NameSpace
-                FINALE_DATA = IMPORTS_STRING + Environment.NewLine + ALLTEXT + Environment.NewLine + "}";
+
+                FINALE_DATA = IMPORTS_STRING;
 
             }
             catch (Exception)

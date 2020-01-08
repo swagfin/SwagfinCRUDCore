@@ -25,5 +25,30 @@ namespace SwagfinCRUDCore
             }
         }
 
+
+
+        public static string ReplaceLastChar(string nameToReplace, string SearchFor = "s")
+        {
+            try
+            {
+                SearchFor = SearchFor.ToLower();
+                //Check if has S
+                string result = nameToReplace.Substring(nameToReplace.Length - 1);
+                if (result == SearchFor)
+                {
+                    //Has an s
+                    nameToReplace = nameToReplace.Remove(nameToReplace.Length - 1, 1);
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+
+            return nameToReplace;
+
+        }
+
+
     }
 }

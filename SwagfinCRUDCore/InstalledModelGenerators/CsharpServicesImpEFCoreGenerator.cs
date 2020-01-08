@@ -14,6 +14,11 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
             string FINALE_DATA = "";
             try
             {
+                //Check Name
+                string className = CurrentTableWithColumns.Table_name;
+                if (ModelGenerator.SingularizeTableNames)
+                    className = DataHelpers.ReplaceLastChar(className);
+
                 string IMPORTS_STRING = @"
 using {namespace}.DataAccess;
 using {namespace}.Entity;
@@ -32,85 +37,85 @@ namespace {namespace}.Services.Implementations
         {
             this.Db = db;
         }	
-        public void Add{Table_name}({Table_name} {table_name})
+        public void Add({Table_name} {table_name})
 		{
             Db.{Table_name}.Add({table_name});
             Db.SaveChanges();
 		}
 		
-        public Task Add{Table_name}Async({Table_name} {table_name})
+        public Task AddAsync({Table_name} {table_name})
 		{
             return Task.Run(() =>
              {
-                 Add{Table_name}({table_name});
+                 Add({table_name});
              });
 		}
 		
-        public IEnumerable<{Table_name}> GetAll{Table_name}()
+        public IEnumerable<{Table_name}> GetAll()
 		{
 			return Db.{Table_name}.ToList();
 		}
 		
-        public Task<IEnumerable<{Table_name}>> GetAll{Table_name}Async()
+        public Task<IEnumerable<{Table_name}>> GetAllAsync()
 		{
             return Task.Run(() =>
              {
-                 return GetAll{Table_name}();
+                 return GetAll();
              });
 		}
 		
-        public {Table_name} Get{Table_name}({unique_identifier_datatype_ide} {unique_identifier})
+        public {Table_name} Get({unique_identifier_datatype_ide} {unique_identifier})
 		{
 			return Db.{Table_name}.FirstOrDefault(x => x.{unique_identifier} == {unique_identifier});
 		}
 		
-        public Task<{Table_name}> Get{Table_name}Async({unique_identifier_datatype_ide} {unique_identifier})
+        public Task<{Table_name}> GetAsync({unique_identifier_datatype_ide} {unique_identifier})
 		{
             return Task.Run(() =>
              {
-                 return Get{Table_name}({unique_identifier});
+                 return Get({unique_identifier});
              });
 		}
 		
-        public void Update{Table_name}({Table_name} {table_name})
+        public void Update({Table_name} {table_name})
 		{
             Db.{Table_name}.Update({table_name});
             Db.SaveChanges();
 		}
 		
-        public Task Update{Table_name}Async({Table_name} {table_name})
+        public Task UpdateAsync({Table_name} {table_name})
 		{
             return Task.Run(() =>
              {
-                 Update{Table_name}({table_name});
+                 Update({table_name});
              });
 		}
 		
-        public void Remove{Table_name}({Table_name} {table_name})
+        public void Remove({Table_name} {table_name})
 		{
             Db.{Table_name}.Remove({table_name});
             Db.SaveChanges();
 		}
 		
-        public Task Remove{Table_name}Async({Table_name} {table_name})
+        public Task RemoveAsync({Table_name} {table_name})
 		{
             return Task.Run(() =>
             {
-                Remove{Table_name}({table_name});
+                Remove({table_name});
             });
 		}
 
-        public void Remove{Table_name}({unique_identifier_datatype_ide} {unique_identifier})
+        public void Remove({unique_identifier_datatype_ide} {unique_identifier})
 		{
-            var {table_name} = Get{Table_name}({unique_identifier});
-            Remove{Table_name}({table_name});
+            var {table_name} = Get({unique_identifier});
+            Remove({table_name});
 		}
 		
-        public Task Remove{Table_name}Async({unique_identifier_datatype_ide} {unique_identifier})
+        public Task RemoveAsync({unique_identifier_datatype_ide} {unique_identifier})
 		{
             return Task.Run(() =>
              {
-                 Remove{Table_name}({unique_identifier});
+                 Remove({unique_identifier});
              });
 		}
 		
@@ -121,8 +126,8 @@ namespace {namespace}.Services.Implementations
 
                 //Replacing
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{namespace}", ModelNameSpace.ToString().Trim());
-                IMPORTS_STRING = IMPORTS_STRING.Replace("{Table_name}", DataHelpers.Capitalize_FChar(CurrentTableWithColumns.Table_name));
-                IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", CurrentTableWithColumns.Table_name);
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{Table_name}", DataHelpers.Capitalize_FChar(className));
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", className);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{unique_identifier_datatype_ide}", CurrentTableWithColumns.Unique_identifier_datatype_ide);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{unique_identifier}", CurrentTableWithColumns.Unique_identifier);
 
