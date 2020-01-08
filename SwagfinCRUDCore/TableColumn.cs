@@ -48,6 +48,7 @@ namespace SwagfinCRUDCore
                 DataHeap = DataHeap.Replace("{extra}", this.Extra);
                 //#New Properties
                 DataHeap = DataHeap.Replace("{referenced_table_name}", this.Referenced_table_name);
+                DataHeap = DataHeap.Replace("{Referenced_table_name}", Capitalize_FChar(this.Referenced_table_name));
                 DataHeap = DataHeap.Replace("{referenced_column_name}", this.Referenced_column_name);
                 DataHeap = DataHeap.Replace("{required}", this.Required);
                 //Others
@@ -64,7 +65,7 @@ namespace SwagfinCRUDCore
             catch (Exception)
             {
 
-            } 
+            }
         }
         #endregion
 

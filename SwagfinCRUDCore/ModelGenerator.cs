@@ -9,15 +9,16 @@ namespace SwagfinCRUDCore
         protected DatabaseConfiguration DBConfiguration { get; set; }
         protected SupportedEngine SupportedDBEngine { get; set; }
         protected string[] DatabaseNameExceptions { get; set; }
-        protected string ModelNamespace { get; set; }
+        public static string ModelNamespace { get; set; }
 
-        public ModelGenerator(DatabaseConfiguration databaseConfig, SupportedEngine supportedDBEngine,string modelNameSpace="swagfin_crud", string[] databaseNamesExceptions=null)
+
+        public ModelGenerator(DatabaseConfiguration databaseConfig, SupportedEngine supportedDBEngine, string modelNameSpace = "SwaginGrud", string[] databaseNamesExceptions = null)
         {
             this.DBConfiguration = databaseConfig;
             this.SupportedDBEngine = supportedDBEngine;
-            this.ModelNamespace = modelNameSpace;
+            ModelNamespace = modelNameSpace;
             //Load Exceptions Received
-            if(databaseNamesExceptions==null) { this.DatabaseNameExceptions = Get_DefaultDBName_Exceptions(); }
+            if (databaseNamesExceptions == null) { this.DatabaseNameExceptions = Get_DefaultDBName_Exceptions(); }
             else { this.DatabaseNameExceptions = databaseNamesExceptions; }
         }
 
@@ -25,7 +26,7 @@ namespace SwagfinCRUDCore
 
         //---------------------------DATABASE ASSOCIATION----------------
 
-        
+
 
         #region Get_Databases
         public List<DatabaseDesign> Get_Databases()
@@ -38,21 +39,21 @@ namespace SwagfinCRUDCore
                 appConnection.Open();
                 MySqlCommand command = new MySqlCommand(MySqlQuery, appConnection);
                 MySqlDataReader feedback = command.ExecuteReader();
-         
+
                 while (feedback.Read())
                 {
                     try
                     {
                         DatabaseDesign new_db = new DatabaseDesign
                         {
-                            Database_Name= feedback.GetString("Database"),
-                            Server_Address =DBConfiguration.MySQL_server,
-                            Database_Port=DBConfiguration.MySQL_Port,
-                            Last_Sync=DateTime.Now
+                            Database_Name = feedback.GetString("Database"),
+                            Server_Address = DBConfiguration.MySQL_server,
+                            Database_Port = DBConfiguration.MySQL_Port,
+                            Last_Sync = DateTime.Now
                         };
-                        
-                        if(this.DatabaseNameExceptions.Contains(new_db.Database_Name)==false)
-                        all_db.Add(new_db);
+
+                        if (this.DatabaseNameExceptions.Contains(new_db.Database_Name) == false)
+                            all_db.Add(new_db);
                     }
                     catch (Exception ex)
                     {
@@ -68,7 +69,7 @@ namespace SwagfinCRUDCore
             }
             finally
             {
-               appConnection.Close();
+                appConnection.Close();
             }
 
             return all_db;
@@ -77,7 +78,7 @@ namespace SwagfinCRUDCore
         #endregion
 
         #region Get_SingleTableWithColumns
-        public TableDesign  Get_SingleTableWithColumns(string DatabaseName, string TableName)
+        public TableDesign Get_SingleTableWithColumns(string DatabaseName, string TableName)
         {
             try
             {
@@ -104,8 +105,6 @@ namespace SwagfinCRUDCore
                 new_table.Delete_specific_data = "Delete_" + new_table.Table_name;
                 new_table.Get_rowcount_specific = "Get_RowCount_" + new_table.Table_name;
                 new_table.Get_rowcount_all = "Get_RowCount_" + new_table.Table_name + "_ALL";
-                // #Namespace
-                new_table.Namespace_name = this.ModelNamespace;
                 new_table.Display_table_name = Capitalize_FChar(tablename_spaced);
                 //----->>Find Columns Keys | Find Primary Key, Unique Identifier, DataType ETC
                 new_table.FindTableIdentifier_PrimaryKeys(this.Get_DatabaseTableColumnsPrimaryKeys(DatabaseName, TableName));
@@ -149,7 +148,7 @@ namespace SwagfinCRUDCore
                         //....LAST.....>new_table.unique_identifier_param_name = UniqueIdentifier_Param;
                         //....LAST.....>unique_identifier_datatype_ide = UniqueIdentifier_type_IDE;
                         //....LAST...>new_table.unique_identifier_datatype_driver = UniqueIdentifier_Type_Driver;
-                        
+
                         string tablename_spaced = new_table.Table_name.Replace("_", " ");
                         // #METHOD NAMING CONVENTIONS
                         new_table.Db_connvariable = "AppConnection";
@@ -161,13 +160,10 @@ namespace SwagfinCRUDCore
                         new_table.Delete_specific_data = "Delete_" + new_table.Table_name;
                         new_table.Get_rowcount_specific = "Get_RowCount_" + new_table.Table_name;
                         new_table.Get_rowcount_all = "Get_RowCount_" + new_table.Table_name + "_ALL";
-                        // #Namespace
-                        new_table.Namespace_name =this.ModelNamespace;
-                        
                         new_table.Display_table_name = Capitalize_FChar(tablename_spaced);
 
                         //----->>Find Columns Keys | Find Primary Key, Unique Identifier, DataType ETC
-                        new_table.FindTableIdentifier_PrimaryKeys(this.Get_DatabaseTableColumnsPrimaryKeys(DatabaseNameSchema, new_table.Table_name)); 
+                        new_table.FindTableIdentifier_PrimaryKeys(this.Get_DatabaseTableColumnsPrimaryKeys(DatabaseNameSchema, new_table.Table_name));
 
                         new_tables.Add(new_table);
                     }
@@ -217,19 +213,19 @@ namespace SwagfinCRUDCore
                         //Get Columns
                         TableColumn new_column = new TableColumn
                         {
-                            Column_id=startAt,  
+                            Column_id = startAt,
                             Table_name = TableNameReceived,
                             Column_name = feedback.GetString(0),
                             Data_type = feedback.GetString(1),
                             Column_key = feedback.GetString(2),
                             Is_nullable = feedback.GetString(3),
                             Extra = feedback.GetString(4)
-                         };
+                        };
                         //@Check
                         if (feedback.IsDBNull(5) == false) { new_column.Referenced_table_name = feedback.GetString(5); } else { new_column.Referenced_table_name = string.Empty; }
                         if (feedback.IsDBNull(6) == false) { new_column.Referenced_column_name = feedback.GetString(6); } else { new_column.Referenced_column_name = string.Empty; }
                         //@Required Fields
-                        if (feedback.GetString(3) == "NO") { new_column.Required = "required"; } else { new_column.Required = string.Empty;  }
+                        if (feedback.GetString(3) == "NO") { new_column.Required = "required"; } else { new_column.Required = string.Empty; }
                         //->>Properties
                         //#Loop All Columns
                         new_column.Column_display = new_column.Column_name.Replace("_", " ");
@@ -245,7 +241,7 @@ namespace SwagfinCRUDCore
                         throw new Exception(ex.Message);
                     }
 
-                    startAt += 1; 
+                    startAt += 1;
                 }
                 feedback.Close();
             }
@@ -287,7 +283,7 @@ namespace SwagfinCRUDCore
                         //Get Columns
                         TableColumn new_column = new TableColumn
                         {
-                            Column_id=StartAt, 
+                            Column_id = StartAt,
                             Table_name = TableNameReceived,
                             Column_name = feedback.GetString(0),
                             Data_type = feedback.GetString(1),
@@ -377,7 +373,7 @@ namespace SwagfinCRUDCore
         }
 
         #endregion
-        
+
         #region Capitalize_FChar First Character
         public string Capitalize_FChar(string nameToRebrand)
         {
@@ -406,16 +402,16 @@ namespace SwagfinCRUDCore
             {
                 return new GeneratedModelTemplate
                 {
-                    SanitizedModelDesign = this.SupportedDBEngine.ModelGenerator.Get_GeneratedModel(CurrentTableWithColumns, this.ModelNamespace),
+                    SanitizedModelDesign = this.SupportedDBEngine.ModelGenerator.Get_GeneratedModel(CurrentTableWithColumns, ModelNamespace),
                     SupportedEngineName = this.SupportedDBEngine.Engine_Name,
                     TargetedDatabase = CurrentTableWithColumns.Database_Name,
-                    SanitizedFileName = "Models\\"+ CurrentTableWithColumns.Model_name+SupportedDBEngine.ModelSaveExtension,
+                    SanitizedFileName = "Models\\" + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
                     DateTimeGenerated = DateTime.Now
                 };
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message); 
+                throw new Exception(ex.Message);
             }
         }
 
@@ -425,21 +421,21 @@ namespace SwagfinCRUDCore
 
         public List<GeneratedModelTemplate> Get_GeneratedTableModel(List<TableDesign> ListOfTablesWithItsColumns)
         {
-            List<GeneratedModelTemplate> all_models = new List<GeneratedModelTemplate>(); 
+            List<GeneratedModelTemplate> all_models = new List<GeneratedModelTemplate>();
             try
             {
                 //Loop Tables
-                foreach(TableDesign CurrentTableWithColumns in ListOfTablesWithItsColumns)
+                foreach (TableDesign CurrentTableWithColumns in ListOfTablesWithItsColumns)
                 {
 
                     all_models.Add(new GeneratedModelTemplate
                     {
-                        SanitizedModelDesign = this.SupportedDBEngine.ModelGenerator.Get_GeneratedModel(CurrentTableWithColumns, this.ModelNamespace),
+                        SanitizedModelDesign = this.SupportedDBEngine.ModelGenerator.Get_GeneratedModel(CurrentTableWithColumns, ModelNamespace),
                         SupportedEngineName = this.SupportedDBEngine.Engine_Name,
                         TargetedDatabase = CurrentTableWithColumns.Database_Name,
                         SanitizedFileName = "Models\\" + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
                         DateTimeGenerated = DateTime.Now
-                    });    
+                    });
                 }
 
             }

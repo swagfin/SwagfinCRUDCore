@@ -16,7 +16,8 @@ namespace SwagfinCRUDCore
         public string Unique_identifier_datatype_driver { get; set; }
         public string Unique_identifier_datatype_get { get; set; }
         // Optional Value
-        public string Namespace_name { get; set; }
+        //DEPRECATED Now Uses Global Static
+        // public string Namespace_name { get; set; }
         // #Added Display Name
         public string Display_table_name { get; set; }
         public string Db_connvariable { get; set; }
@@ -28,7 +29,7 @@ namespace SwagfinCRUDCore
         public string Delete_specific_data { get; set; }
         public string Get_rowcount_specific { get; set; }
         public string Get_rowcount_all { get; set; }
-        
+
         /*DEPRECATED PROPERTY
         public string Register_form_name { get; set; }
         public string Register_form_text { get; set; }
@@ -77,7 +78,7 @@ namespace SwagfinCRUDCore
             try
             {
                 DataHeap = DataHeap.Replace("{database_name}", this.Database_Name);
-                DataHeap = DataHeap.Replace("{namespace}", this.Namespace_name);
+                DataHeap = DataHeap.Replace("{namespace}", ModelGenerator.ModelNamespace);
                 DataHeap = DataHeap.Replace("{Table_name}", Capitalize_FChar(this.Table_name));
                 DataHeap = DataHeap.Replace("{table_name}", this.Table_name);
                 DataHeap = DataHeap.Replace("{model_name}", this.Model_name);
