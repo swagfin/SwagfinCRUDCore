@@ -26,7 +26,7 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "CONLYENTITIES",
                     Engine_Name = "C# Entities/Model Classes Generator",
-                    Engine_Info = "Generate Only Entity classes from the Database",
+                    Engine_Info = "Generate Entity classes from the Database",
                     ModelSaveExtension=".cs",
                     ModelSaveSubFolder="Entity",
                     ModelGenerator = new CSharpPlainEntityGenerator(),
@@ -36,7 +36,7 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "CONLYSERVICES",
                     Engine_Name = "C# Interface/Repository Services Generator",
-                    Engine_Info = "Generate Only Interface/Repository/Services classes from Database to help you loose couple your system logics",
+                    Engine_Info = "Generate Interface/Repository/Services classes from Database to help you loose couple your system logics",
                     ModelSaveExtension="Service.cs",
                     ModelSaveSubFolder="Services",
                     ModelGenerator = new CSharpServicesGenerator(),
@@ -46,10 +46,20 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "CONLYSERVICESIMPLEMENTATION",
                     Engine_Name = "C# Interface/Repository Services Implementation Generator",
-                    Engine_Info = "Generate Only Implementations for the interface repository that you have already generated from your database.",
+                    Engine_Info = "Generate Implementations for the interface repository that you have already generated from your database.",
                     ModelSaveExtension="Service.cs",
                     ModelSaveSubFolder="Services\\Implementations",
                     ModelGenerator = new CSharpServicesImplementationGenerator(),
+                    Dependancies = new List<SupportedEngineDependancy>()
+                },
+                new SupportedEngine
+                {
+                    Engine_Key = "CONLYSERVICESIMPLEMENTATIONEF",
+                    Engine_Name = "C# Entity Framework Interface/Repository Services Implementation (.NET Core Support) Generator",
+                    Engine_Info = "Generate Entity Framework Implementations for the interface repository that you have already generated. Note! You must have .DataAccess of ApplicationDbContext",
+                    ModelSaveExtension="Service.cs",
+                    ModelSaveSubFolder="Services\\Implementations",
+                    ModelGenerator = new CSharpServicesImpEFCoreGenerator(),
                     Dependancies = new List<SupportedEngineDependancy>()
                 },
 

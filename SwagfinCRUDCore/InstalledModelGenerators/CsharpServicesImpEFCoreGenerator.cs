@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SwagfinCRUDCore.InstalledModelGenerators
 {
-    class CSharpServicesImplementationGenerator : ILanguageModelGenerator
+    class CSharpServicesImpEFCoreGenerator : ILanguageModelGenerator
     {
         protected static string QuotesChar = char.ConvertFromUtf32(34);
 
@@ -15,74 +15,103 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
             try
             {
                 string IMPORTS_STRING = @"
+using {namespace}.DataAccess;
+using {namespace}.Entity;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace {namespace}.Services.Implementations
 {
     public class {Table_name}Service : I{Table_name}Service
     {
-	
+       ApplicationDbContext Db { get; set; }
+
+        public {Table_name}Service(ApplicationDbContext db)
+        {
+            this.Db = db;
+        }	
         public void Add{Table_name}({Table_name} {table_name})
 		{
-			throw new NotImplementedException();
+            Db.{Table_name}.Add({table_name});
+            Db.SaveChanges();
 		}
 		
         public Task Add{Table_name}Async({Table_name} {table_name})
 		{
-			throw new NotImplementedException();
+            return Task.Run(() =>
+             {
+                 Add{Table_name}({table_name});
+             });
 		}
 		
         public IEnumerable<{Table_name}> GetAll{Table_name}()
 		{
-			throw new NotImplementedException();
+			return Db.{Table_name}.ToList();
 		}
 		
         public Task<IEnumerable<{Table_name}>> GetAll{Table_name}Async()
 		{
-			throw new NotImplementedException();
+            return Task.Run(() =>
+             {
+                 return GetAll{Table_name}();
+             });
 		}
 		
         public {Table_name} Get{Table_name}({unique_identifier_datatype_ide} {unique_identifier})
 		{
-			throw new NotImplementedException();
+			return Db.{Table_name}.FirstOrDefault(x => x.{unique_identifier} == {unique_identifier});
 		}
 		
         public Task<{Table_name}> Get{Table_name}Async({unique_identifier_datatype_ide} {unique_identifier})
 		{
-			throw new NotImplementedException();
+            return Task.Run(() =>
+             {
+                 return Get{Table_name}({unique_identifier});
+             });
 		}
 		
         public void Update{Table_name}({Table_name} {table_name})
 		{
-			throw new NotImplementedException();
+            Db.{Table_name}.Update({table_name});
+            Db.SaveChanges();
 		}
 		
         public Task Update{Table_name}Async({Table_name} {table_name})
 		{
-			throw new NotImplementedException();
+            return Task.Run(() =>
+             {
+                 Update{Table_name}({table_name});
+             });
 		}
 		
         public void Remove{Table_name}({Table_name} {table_name})
 		{
-			throw new NotImplementedException();
+            Db.{Table_name}.Remove({table_name});
+            Db.SaveChanges();
 		}
 		
         public Task Remove{Table_name}Async({Table_name} {table_name})
 		{
-			throw new NotImplementedException();
+            return Task.Run(() =>
+            {
+                Remove{Table_name}({table_name});
+            });
 		}
 
         public void Remove{Table_name}({unique_identifier_datatype_ide} {unique_identifier})
 		{
-			throw new NotImplementedException();
+            var {table_name} = Get{Table_name}({unique_identifier});
+            Remove{Table_name}({table_name});
 		}
 		
         public Task Remove{Table_name}Async({unique_identifier_datatype_ide} {unique_identifier})
 		{
-			throw new NotImplementedException();
+            return Task.Run(() =>
+             {
+                 Remove{Table_name}({unique_identifier});
+             });
 		}
 		
 	}
