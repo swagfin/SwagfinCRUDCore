@@ -12,7 +12,7 @@ namespace SwagfinCRUDCore
         public static string ModelNamespace { get; set; }
 
 
-        public ModelGenerator(DatabaseConfiguration databaseConfig, SupportedEngine supportedDBEngine, string modelNameSpace = "SwaginGrud", string[] databaseNamesExceptions = null)
+        public ModelGenerator(DatabaseConfiguration databaseConfig, SupportedEngine supportedDBEngine, string modelNameSpace = "SwagfinGrud", string[] databaseNamesExceptions = null)
         {
             this.DBConfiguration = databaseConfig;
             this.SupportedDBEngine = supportedDBEngine;
@@ -88,7 +88,8 @@ namespace SwagfinCRUDCore
                 //->> Properties
                 new_table.Model_name = new_table.Table_name.Replace(" ", "");
                 new_table.Model_name = new_table.Model_name.Replace("_", "");
-                new_table.Model_name = Capitalize_FChar(new_table.Model_name).Trim() + "Model";
+                //new_table.Model_name = Capitalize_FChar(new_table.Model_name).Trim() + "Model";
+                new_table.Model_name = Capitalize_FChar(new_table.Model_name).Trim();
                 //----LAST-------> Will Find Last new_table.unique_identifier = UniqueIdentifier;
                 //....LAST.....>new_table.unique_identifier_param_name = UniqueIdentifier_Param;
                 //....LAST.....>unique_identifier_datatype_ide = UniqueIdentifier_type_IDE;
@@ -143,7 +144,8 @@ namespace SwagfinCRUDCore
                         //->> Properties
                         new_table.Model_name = new_table.Table_name.Replace(" ", "");
                         new_table.Model_name = new_table.Model_name.Replace("_", "");
-                        new_table.Model_name = Capitalize_FChar(new_table.Model_name).Trim() + "Model";
+                        //new_table.Model_name = Capitalize_FChar(new_table.Model_name).Trim() + "Model";
+                        new_table.Model_name = Capitalize_FChar(new_table.Model_name).Trim();
                         //----LAST-------> Will Find Last new_table.unique_identifier = UniqueIdentifier;
                         //....LAST.....>new_table.unique_identifier_param_name = UniqueIdentifier_Param;
                         //....LAST.....>unique_identifier_datatype_ide = UniqueIdentifier_type_IDE;
@@ -400,14 +402,18 @@ namespace SwagfinCRUDCore
         {
             try
             {
-                return new GeneratedModelTemplate
+                var objectSupport = new GeneratedModelTemplate
                 {
                     SanitizedModelDesign = this.SupportedDBEngine.ModelGenerator.Get_GeneratedModel(CurrentTableWithColumns, ModelNamespace),
                     SupportedEngineName = this.SupportedDBEngine.Engine_Name,
                     TargetedDatabase = CurrentTableWithColumns.Database_Name,
-                    SanitizedFileName = "Models\\" + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
+                    SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + "\\" + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
                     DateTimeGenerated = DateTime.Now
                 };
+                if (this.SupportedDBEngine.IsSingleClass)
+                    objectSupport.SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + "\\" + SupportedDBEngine.ModelSaveExtension;
+
+                return objectSupport;
             }
             catch (Exception ex)
             {
@@ -433,7 +439,7 @@ namespace SwagfinCRUDCore
                         SanitizedModelDesign = this.SupportedDBEngine.ModelGenerator.Get_GeneratedModel(CurrentTableWithColumns, ModelNamespace),
                         SupportedEngineName = this.SupportedDBEngine.Engine_Name,
                         TargetedDatabase = CurrentTableWithColumns.Database_Name,
-                        SanitizedFileName = "Models\\" + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
+                        SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + "\\" + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
                         DateTimeGenerated = DateTime.Now
                     });
                 }

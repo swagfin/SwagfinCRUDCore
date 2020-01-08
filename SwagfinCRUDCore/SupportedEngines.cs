@@ -10,6 +10,8 @@ namespace SwagfinCRUDCore
         public string Engine_Info { get; set; }
         public ILanguageModelGenerator ModelGenerator { get; set; }
         public string ModelSaveExtension { get; set; }
+        public string ModelSaveSubFolder { get; set; } = "Models";
+        public bool IsSingleClass { get; set; } = false;
         public List<SupportedEngineDependancy> Dependancies { get; set; }
 
         #region Get_SupportedEngines | Registering Supported Engine
@@ -22,9 +24,40 @@ namespace SwagfinCRUDCore
                 //-->>MySQL for VB.NET
                 new SupportedEngine
                 {
+                    Engine_Key = "CONLYENTITIES",
+                    Engine_Name = "C# Entities/Model Classes Generator",
+                    Engine_Info = "Generate Only Entity classes from the Database",
+                    ModelSaveExtension=".cs",
+                    ModelSaveSubFolder="Entity",
+                    ModelGenerator = new CSharpPlainEntityGenerator(),
+                    Dependancies = new List<SupportedEngineDependancy>()
+                },
+                new SupportedEngine
+                {
+                    Engine_Key = "CONLYSERVICES",
+                    Engine_Name = "C# Interface/Repository Services Generator",
+                    Engine_Info = "Generate Only Interface/Repository/Services classes from Database to help you loose couple your system logics",
+                    ModelSaveExtension="Service.cs",
+                    ModelSaveSubFolder="Services",
+                    ModelGenerator = new CSharpServicesGenerator(),
+                    Dependancies = new List<SupportedEngineDependancy>()
+                },
+                new SupportedEngine
+                {
+                    Engine_Key = "CONLYSERVICESIMPLEMENTATION",
+                    Engine_Name = "C# Interface/Repository Services Implementation Generator",
+                    Engine_Info = "Generate Only Implementations for the interface repository that you have already generated from your database.",
+                    ModelSaveExtension="Service.cs",
+                    ModelSaveSubFolder="Services\\Implementations",
+                    ModelGenerator = new CSharpServicesImplementationGenerator(),
+                    Dependancies = new List<SupportedEngineDependancy>()
+                },
+
+                new SupportedEngine
+                {
                     Engine_Key = "MYSQL",
                     Engine_Name = "MySQL for VB.NET Code Engine Generator",
-                    Engine_Info = "Generator Engine that supports MySQL for VB.NET Language",
+                    Engine_Info = "Generator Engine that supports MySQL for VB.NET Language.",
                     ModelSaveExtension=".vb",
                     ModelGenerator = new Vb_MySQL_Generator(),
                     Dependancies = new List<SupportedEngineDependancy>()
@@ -35,7 +68,7 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "MYSQL",
                     Engine_Name = "MySQL for C# Code Engine Generator",
-                    Engine_Info = "Generator Engine that supports MySQL for C# Language",
+                    Engine_Info = "Generator Engine that supports MySQL for C# Language.",
                     ModelSaveExtension=".cs",
                     ModelGenerator = new Csharp_MySQL_Generator(),
                     Dependancies = new List<SupportedEngineDependancy>()
@@ -46,7 +79,7 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "MSSQL",
                     Engine_Name = "Microsoft SQL for VB.NET Code Engine Generator",
-                    Engine_Info = "Generator Engine that supports Microsoft SQL for VB.NET Language",
+                    Engine_Info = "Generator Engine that supports Microsoft SQL for VB.NET Language.",
                     ModelSaveExtension=".vb",
                     ModelGenerator = new Vb_MSSQL_Generator(),
                     Dependancies = new List<SupportedEngineDependancy>()
@@ -57,7 +90,7 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "MSSQL",
                     Engine_Name = "Microsoft SQL for C# Code Engine Generator",
-                    Engine_Info = "Generator Engine that supports Microsoft SQL for C# Language",
+                    Engine_Info = "Generator Engine that supports Microsoft SQL for C# Language.",
                     ModelSaveExtension=".cs",
                      ModelGenerator = new Csharp_MSSQL_Generator(),
                     Dependancies = new List<SupportedEngineDependancy>()
@@ -68,7 +101,7 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "SQLITE",
                     Engine_Name = "SQLite DB for VB.NET Code Engine Generator",
-                    Engine_Info = "Generator Engine that supports SQLite Database for VB.NET Language",
+                    Engine_Info = "Generator Engine that supports SQLite Database for VB.NET Language.",
                     ModelSaveExtension=".vb",
                     ModelGenerator = new Vb_SQLITE_Generator(),
                     Dependancies = new List<SupportedEngineDependancy>()
@@ -79,7 +112,7 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "SQLITE",
                     Engine_Name = "SQLite SQL for C# Code Engine Generator",
-                    Engine_Info = "Generator Engine that supports Microsoft SQL for C# Language",
+                    Engine_Info = "Generator Engine that supports Microsoft SQL for C# Language.",
                     ModelSaveExtension=".cs",
                      ModelGenerator = new Csharp_SQLITE_Generator(),
                     Dependancies = new List<SupportedEngineDependancy>()
@@ -91,7 +124,7 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "ACCESSDB",
                     Engine_Name = "Microsoft Access DB for VB.NET Code Engine Generator",
-                    Engine_Info = "Generator Engine that supports Microsoft Access Database for VB.NET Language",
+                    Engine_Info = "Generator Engine that supports Microsoft Access Database for VB.NET Language.",
                     ModelSaveExtension=".vb",
                     ModelGenerator = new Vb_ACCESSDB_Generator(),
                     Dependancies = new List<SupportedEngineDependancy>()
@@ -102,16 +135,17 @@ namespace SwagfinCRUDCore
                 {
                     Engine_Key = "ACCESSDB",
                     Engine_Name = "Microsoft Access DB for C# Code Engine Generator",
-                    Engine_Info = "Generator Engine that supports Microsoft Access Database for C# Language",
+                    Engine_Info = "Generator Engine that supports Microsoft Access Database for C# Language.",
                     ModelSaveExtension=".cs",
                     ModelGenerator = new Csharp_ACCESSDB_Generator(),
                     Dependancies = new List<SupportedEngineDependancy>()
                 },
+
                 new SupportedEngine
                 {
                     Engine_Key = "EMPTY",
                     Engine_Name = "Use an Empty Model Generator",
-                    Engine_Info = "Usefull in senarios where you only need to Generate UIX Designs without Models",
+                    Engine_Info = "Usefull in senarios where you only need to Generate UIX Designs without Models.",
                     ModelSaveExtension=".txt",
                     ModelGenerator = new EmptyModelGenerator(),
                     Dependancies = new List<SupportedEngineDependancy>()

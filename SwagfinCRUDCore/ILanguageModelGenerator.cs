@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace SwagfinCRUDCore
 {
-   public interface  ILanguageModelGenerator
+    public interface ILanguageModelGenerator
     {
 
-        string Get_GeneratedModel(TableDesign CurrentTableWithColumns, string ModelNameSpace = "swagfin.Models");
+        string Get_GeneratedModel(TableDesign CurrentTableWithColumns, string ModelNameSpace = "SwagfinCrud");
         string Generate_GET(TableDesign TableData);
         string Generate_CREATE(TableDesign TableData);
         string Generate_READ(TableDesign TableData);

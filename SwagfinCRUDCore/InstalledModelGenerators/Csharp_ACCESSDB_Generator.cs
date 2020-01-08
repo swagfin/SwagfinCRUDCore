@@ -11,7 +11,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
         protected static string QuotesChar = char.ConvertFromUtf32(34);
 
         #region Get_GeneratedModel
-        public string Get_GeneratedModel(TableDesign CurrentTableWithColumns,string ModelNameSpace = "swagfin.Models")
+        public string Get_GeneratedModel(TableDesign CurrentTableWithColumns, string ModelNameSpace = "swagfin.Models")
         {
 
             string FINALE_DATA = "";
@@ -643,7 +643,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
             try
             {
 
-                if (TableColumn.Data_type == "int")
+                if (TableColumn.Data_type == "int" || TableColumn.Data_type == "tinyint" || TableColumn.Data_type == "smallint" || TableColumn.Data_type == "smallint")
                 {
                     TableColumn.Column_datatype_ide = "int";
                     TableColumn.Column_datatype_get = "GetInt32";

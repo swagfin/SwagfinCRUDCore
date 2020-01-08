@@ -36,7 +36,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
                 }
                 //---->>Member Properties
 
-                ALLTEXT += Environment.NewLine + "protected  SqlConnection " + CurrentTableWithColumns.Db_connvariable + " = new SqlConnection(" + QuotesChar + "Data Source=127.0.0.1;Initial Catalog="+ CurrentTableWithColumns.Database_Name + ";Integrated Security=True" + QuotesChar + ");";
+                ALLTEXT += Environment.NewLine + "protected  SqlConnection " + CurrentTableWithColumns.Db_connvariable + " = new SqlConnection(" + QuotesChar + "Data Source=127.0.0.1;Initial Catalog=" + CurrentTableWithColumns.Database_Name + ";Integrated Security=True" + QuotesChar + ");";
                 ALLTEXT += Environment.NewLine;
 
                 // #End of Class Model Variables
@@ -643,7 +643,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
             try
             {
 
-                if (TableColumn.Data_type == "int")
+                if (TableColumn.Data_type == "int" || TableColumn.Data_type == "tinyint" || TableColumn.Data_type == "smallint" || TableColumn.Data_type == "smallint")
                 {
                     TableColumn.Column_datatype_ide = "int";
                     TableColumn.Column_datatype_get = "GetInt32";

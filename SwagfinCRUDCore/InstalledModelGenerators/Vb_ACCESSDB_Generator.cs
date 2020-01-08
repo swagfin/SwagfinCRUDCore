@@ -29,7 +29,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
                 }
                 //---->>Member Properties
 
-                ALLTEXT += Environment.NewLine + "Protected " + CurrentTableWithColumns.Db_connvariable + " As OleDbConnection  = New OleDbConnection(" + QuotesChar + "Provider=Microsoft.Jet.OLEDB.4.0; Microsoft.ACE.OLEDB.12.0;Data Source=" + CurrentTableWithColumns.Database_Name +  ".accd" + QuotesChar + ")";
+                ALLTEXT += Environment.NewLine + "Protected " + CurrentTableWithColumns.Db_connvariable + " As OleDbConnection  = New OleDbConnection(" + QuotesChar + "Provider=Microsoft.Jet.OLEDB.4.0; Microsoft.ACE.OLEDB.12.0;Data Source=" + CurrentTableWithColumns.Database_Name + ".accd" + QuotesChar + ")";
                 ALLTEXT += Environment.NewLine;
 
 
@@ -565,7 +565,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
         {
             try
             {
-                if (TableColumn.Data_type == "int")
+                if (TableColumn.Data_type == "int" || TableColumn.Data_type == "tinyint" || TableColumn.Data_type == "smallint" || TableColumn.Data_type == "smallint")
                 {
                     TableColumn.Column_datatype_ide = "Integer";
                     TableColumn.Column_datatype_get = "GetInt32";

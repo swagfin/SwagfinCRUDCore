@@ -10,7 +10,7 @@ namespace SwagfinUIXComponent
 {
     public class UIXGenerator
     {
-        protected UIXPackage UIXTemplate {get;set;}
+        protected UIXPackage UIXTemplate { get; set; }
         protected string TableDir { get; set; }
         protected string SingleDir { get; set; }
 
@@ -38,7 +38,7 @@ namespace SwagfinUIXComponent
             }
             catch (Exception ex)
             {
-                throw new NotImplementedException(ex.Message); 
+                throw new NotImplementedException(ex.Message);
             }
 
         }
@@ -63,7 +63,7 @@ namespace SwagfinUIXComponent
                     template.ExecuteTableScript(ListOfTablesWithItsColumns);
                     //---->No Table Script | template.ExecuteTableScript(myTable);
                 }
-                return SingleTemplates; 
+                return SingleTemplates;
             }
             catch (Exception ex)
             {
@@ -103,7 +103,7 @@ namespace SwagfinUIXComponent
                 /*
                  * We Now have a Complete UIX Design Sanitized using the Template
                  */
-                return TableTemplates; 
+                return TableTemplates;
             }
             catch (Exception ex)
             {
@@ -137,7 +137,7 @@ namespace SwagfinUIXComponent
                             ExecutableScript = Get_CodeBlocksBtwn(filename, ExecutableStartAt, ExecutableEndAt, ref CleanedCode),
                             SanitizedUIXDesign = CleanedCode,
                             DateTimeGenerated = DateTime.Now,
-                            GeneratedByTemplate =this.UIXTemplate.UIX_Name 
+                            GeneratedByTemplate = this.UIXTemplate.UIX_Name
                         }
                         );
                     }

@@ -65,7 +65,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
                 ALLTEXT += Environment.NewLine + Environment.NewLine + "End Class";
 
                 // #FINALLE DATA |End NameSpace
-                FINALE_DATA = IMPORTS_STRING + Environment.NewLine + ALLTEXT ;
+                FINALE_DATA = IMPORTS_STRING + Environment.NewLine + ALLTEXT;
 
             }
             catch (Exception)
@@ -223,7 +223,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
                     GENERATE_sQL_STRING += row.Column_name;
                     if (StatAt != StatFinale)
                         GENERATE_sQL_STRING += ",";
-                    GET_PARAMS += Environment.NewLine + "If feedback.IsDBNull(" + (StatAt - 1).ToString()  + ") = False Then Me." + row.Column_name + "=feedback." + row.Column_datatype_get + "(" + (StatAt - 1).ToString()  + ")";
+                    GET_PARAMS += Environment.NewLine + "If feedback.IsDBNull(" + (StatAt - 1).ToString() + ") = False Then Me." + row.Column_name + "=feedback." + row.Column_datatype_get + "(" + (StatAt - 1).ToString() + ")";
                 }
                 // #finally 
                 GENERATE_sQL_STRING += " FROM " + TableData.Table_name + " WHERE " + TableData.Unique_identifier + "=@Identifier";
@@ -330,7 +330,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
                     if (StatAt != StatFinale)
                         GENERATE_sQL_STRING += ",";
                     // #Finale
-                    GENERATED_GET_OBJ += Environment.NewLine + "If feedback.IsDBNull(" + (StatAt - 1).ToString()  + ") = False Then new_instance." + row.Column_name + "=feedback." + row.Column_datatype_get + "(" + (StatAt - 1).ToString()  + ")";
+                    GENERATED_GET_OBJ += Environment.NewLine + "If feedback.IsDBNull(" + (StatAt - 1).ToString() + ") = False Then new_instance." + row.Column_name + "=feedback." + row.Column_datatype_get + "(" + (StatAt - 1).ToString() + ")";
                 }
                 // #finally 
                 GENERATE_sQL_STRING += " FROM " + TableData.Table_name;
@@ -565,7 +565,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
         {
             try
             {
-                if (TableColumn.Data_type == "int")
+                if (TableColumn.Data_type == "int" || TableColumn.Data_type == "tinyint" || TableColumn.Data_type == "smallint" || TableColumn.Data_type == "smallint")
                 {
                     TableColumn.Column_datatype_ide = "Integer";
                     TableColumn.Column_datatype_get = "GetInt32";

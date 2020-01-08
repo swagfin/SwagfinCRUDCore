@@ -70,7 +70,11 @@
   <ItemGroup>
     <Compile Include="DatabaseConfiguration.cs" />
     <Compile Include="DatabaseDesign.cs" />
+    <Compile Include="DataHelpers.cs" />
     <Compile Include="GeneratedModelTemplate.cs" />
+    <Compile Include="InstalledModelGenerators\CSharpPlainEntityGenerator.cs" />
+    <Compile Include="InstalledModelGenerators\CsharpServicesImplementationGenerator.cs" />
+    <Compile Include="InstalledModelGenerators\CsharpServicesGenerator.cs" />
     <Compile Include="InstalledModelGenerators\Csharp_MSSQL_Generator.cs" />
     <Compile Include="InstalledModelGenerators\Csharp_ACCESSDB_Generator.cs" />
     <Compile Include="InstalledModelGenerators\EmptyModelGenerator.cs" />

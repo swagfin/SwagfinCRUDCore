@@ -565,7 +565,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
         {
             try
             {
-                if (TableColumn.Data_type == "int")
+                if (TableColumn.Data_type == "int" || TableColumn.Data_type == "tinyint" || TableColumn.Data_type == "smallint" || TableColumn.Data_type == "smallint")
                 {
                     TableColumn.Column_datatype_ide = "Integer";
                     TableColumn.Column_datatype_get = "GetInt32";
