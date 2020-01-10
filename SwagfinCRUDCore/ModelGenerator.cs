@@ -88,6 +88,10 @@ namespace SwagfinCRUDCore
                 TableDesign new_table = new TableDesign();
                 new_table.Database_Name = DatabaseName;
                 new_table.Table_name = TableName;
+                new_table.Origin_Table_name = TableName;
+                //Check Singular or Multiple
+                if (SingularizeTableNames)
+                    new_table.Table_name = DataHelpers.ReplaceLastChar(new_table.Table_name);
                 //->> Properties
                 new_table.Model_name = new_table.Table_name.Replace(" ", "");
                 new_table.Model_name = new_table.Model_name.Replace("_", "");
@@ -113,7 +117,7 @@ namespace SwagfinCRUDCore
                 //----->>Find Columns Keys | Find Primary Key, Unique Identifier, DataType ETC
                 new_table.FindTableIdentifier_PrimaryKeys(this.Get_DatabaseTableColumnsPrimaryKeys(DatabaseName, TableName));
 
-                new_table.Table_Columns = this.Get_DatabaseTableColumns(DatabaseName, new_table.Table_name);
+                new_table.Table_Columns = this.Get_DatabaseTableColumns(DatabaseName, TableName);
 
                 return new_table;
             }
@@ -143,7 +147,12 @@ namespace SwagfinCRUDCore
                     {
                         TableDesign new_table = new TableDesign();
                         new_table.Database_Name = DatabaseNameSchema;
-                        new_table.Table_name = feedback.GetString("Tables_in_" + DatabaseNameSchema);
+                        new_table.Origin_Table_name = feedback.GetString("Tables_in_" + DatabaseNameSchema);
+                        new_table.Table_name = new_table.Origin_Table_name;
+                        //Check Singular or Multiple
+                        string TableName = new_table.Table_name;
+                        if (SingularizeTableNames)
+                            new_table.Table_name = DataHelpers.ReplaceLastChar(new_table.Table_name);
                         //->> Properties
                         new_table.Model_name = new_table.Table_name.Replace(" ", "");
                         new_table.Model_name = new_table.Model_name.Replace("_", "");
@@ -168,7 +177,7 @@ namespace SwagfinCRUDCore
                         new_table.Display_table_name = Capitalize_FChar(tablename_spaced);
 
                         //----->>Find Columns Keys | Find Primary Key, Unique Identifier, DataType ETC
-                        new_table.FindTableIdentifier_PrimaryKeys(this.Get_DatabaseTableColumnsPrimaryKeys(DatabaseNameSchema, new_table.Table_name));
+                        new_table.FindTableIdentifier_PrimaryKeys(this.Get_DatabaseTableColumnsPrimaryKeys(DatabaseNameSchema, TableName));
 
                         new_tables.Add(new_table);
                     }
@@ -345,9 +354,9 @@ namespace SwagfinCRUDCore
                 //#Loop Ech Table
                 foreach (TableDesign table in db_tables)
                 {
-                    table.Table_Columns = this.Get_DatabaseTableColumns(DatabaseName, table.Table_name);
+                    table.Table_Columns = this.Get_DatabaseTableColumns(DatabaseName, table.Origin_Table_name);
                     //----->>Find Columns Keys | Find Primary Key, Unique Identifier, DataType ETC
-                    table.FindTableIdentifier_PrimaryKeys(this.Get_DatabaseTableColumnsPrimaryKeys(DatabaseName, table.Table_name));
+                    table.FindTableIdentifier_PrimaryKeys(this.Get_DatabaseTableColumnsPrimaryKeys(DatabaseName, table.Origin_Table_name));
                 }
             }
             catch (Exception ex)
@@ -413,9 +422,6 @@ namespace SwagfinCRUDCore
                     SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
                     DateTimeGenerated = DateTime.Now
                 };
-                if (SingularizeTableNames)
-                    objectSupport.SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + DataHelpers.ReplaceLastChar(CurrentTableWithColumns.Model_name) + SupportedDBEngine.ModelSaveExtension;
-
                 return objectSupport;
             }
             catch (Exception ex)
@@ -444,10 +450,6 @@ namespace SwagfinCRUDCore
                         SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + CurrentTableWithColumns.Model_name + SupportedDBEngine.ModelSaveExtension,
                         DateTimeGenerated = DateTime.Now
                     };
-
-                    //Check
-                    if (SingularizeTableNames)
-                        objectSupport.SanitizedFileName = SupportedDBEngine.ModelSaveSubFolder + DataHelpers.ReplaceLastChar(CurrentTableWithColumns.Model_name) + SupportedDBEngine.ModelSaveExtension;
 
                     all_models.Add(objectSupport);
 

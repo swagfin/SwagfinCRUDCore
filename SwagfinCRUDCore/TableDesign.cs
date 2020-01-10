@@ -9,6 +9,7 @@ namespace SwagfinCRUDCore
         // #MANDATORY FIELDS
         public string Database_Name { get; set; }
         public string Table_name { get; set; }
+        public string Origin_Table_name { get; set; } = string.Empty;
         public string Model_name { get; set; }
         public string Unique_identifier { get; set; }
         public string Unique_identifier_param_name { get; set; }

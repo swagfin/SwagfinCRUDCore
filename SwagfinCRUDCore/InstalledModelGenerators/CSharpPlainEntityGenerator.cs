@@ -18,10 +18,6 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
             {
                 //Check Name
                 string className = CurrentTableWithColumns.Table_name;
-                if (ModelGenerator.SingularizeTableNames)
-                    className = DataHelpers.ReplaceLastChar(className);
-
-
                 string IMPORTS_STRING = @"
 using System;
 using System.Data;
