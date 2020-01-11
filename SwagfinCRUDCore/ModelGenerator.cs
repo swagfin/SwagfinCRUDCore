@@ -11,15 +11,17 @@ namespace SwagfinCRUDCore
         protected string[] DatabaseNameExceptions { get; set; }
         public static string ModelNamespace { get; set; }
         public static bool SingularizeTableNames { get; set; } = false;
+        public static bool AddAsNoTracking { get; set; } = false;
 
 
-        public ModelGenerator(DatabaseConfiguration databaseConfig, SupportedEngine supportedDBEngine, string modelNameSpace = "SwagfinGrud", string[] databaseNamesExceptions = null, bool singularizeTableNames = false)
+        public ModelGenerator(DatabaseConfiguration databaseConfig, SupportedEngine supportedDBEngine, string modelNameSpace = "SwagfinGrud", string[] databaseNamesExceptions = null, bool singularizeTableNames = false, bool addAsNoTracking = false)
         {
             this.DBConfiguration = databaseConfig;
             this.SupportedDBEngine = supportedDBEngine;
 
             ModelNamespace = modelNameSpace;
             SingularizeTableNames = singularizeTableNames;
+            AddAsNoTracking = addAsNoTracking;
             //Load Exceptions Received
             if (databaseNamesExceptions == null) { this.DatabaseNameExceptions = Get_DefaultDBName_Exceptions(); }
             else { this.DatabaseNameExceptions = databaseNamesExceptions; }

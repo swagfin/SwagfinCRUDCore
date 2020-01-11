@@ -51,7 +51,7 @@ namespace {namespace}.Services.Implementations
 		
         public IEnumerable<{Table_name}> GetAll()
 		{
-			return Db.{Table_name}.ToList();
+			return Db.{Table_name}{GetAllAfter};
 		}
 		
         public Task<IEnumerable<{Table_name}>> GetAllAsync()
@@ -128,7 +128,8 @@ namespace {namespace}.Services.Implementations
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", className);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{unique_identifier_datatype_ide}", CurrentTableWithColumns.Unique_identifier_datatype_ide);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{unique_identifier}", CurrentTableWithColumns.Unique_identifier);
-
+                //{GetAllAfter} AsNoTracking().ToList();
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{GetAllAfter}", ModelGenerator.AddAsNoTracking ? ".AsNoTracking().ToList()" : ".ToList()");
                 FINALE_DATA = IMPORTS_STRING;
 
             }
