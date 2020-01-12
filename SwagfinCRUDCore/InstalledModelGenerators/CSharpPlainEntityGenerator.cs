@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SwagfinCRUDCore.InstalledModelGenerators
 {
@@ -23,7 +24,7 @@ using System;
 using System.Data;
 using System.Collections;
 using System.Collections.Generic;
-
+using Microsoft.EntityFrameworkCore;
 namespace {namespace}.Entity
 {
 
@@ -36,11 +37,27 @@ namespace {namespace}.Entity
 ";
 
                 string classProperties = string.Empty;
+                string relations = string.Empty;
                 foreach (TableColumn row in CurrentTableWithColumns.Table_Columns)
                 {
                     classProperties += Environment.NewLine + "      public " + row.Column_datatype_ide + " " + row.Column_name + " { get; set; }";
-                }
+                    //Check for Relationships
+                    if (ModelGenerator.IncludeTableRelationShips)
+                        if (string.IsNullOrEmpty(row.Referenced_table_name) == false && string.IsNullOrEmpty(row.Referenced_column_name) == false)
+                        {
+                            string relationTableClass = DataHelpers.Capitalize_FChar(row.Referenced_table_name);
+                            //Check if Singularize
+                            if (ModelGenerator.SingularizeTableNames)
+                                relationTableClass = DataHelpers.ReplaceLastChar(relationTableClass);
 
+                            relations += Environment.NewLine + "      public " + relationTableClass + " " + relationTableClass + " { get; set; }";
+
+                        }
+
+                }
+                //Append
+                if (ModelGenerator.IncludeTableRelationShips)
+                    classProperties += relations;
                 //Replaces
                 IMPORTS_STRING = IMPORTS_STRING.Replace("//{ClassProperties}", classProperties);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{namespace}", ModelNameSpace.ToString().Trim());
