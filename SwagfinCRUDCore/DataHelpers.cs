@@ -24,6 +24,22 @@ namespace SwagfinCRUDCore
                 return nameToRebrand;
             }
         }
+        public static string UnCapitalize_FChar(string nameToRebrand)
+        {
+            try
+            {
+                char[] array = nameToRebrand.ToCharArray();
+                // Uppercase first character.
+                array[0] = char.ToLower(array[0]);
+                // Return new string.
+                nameToRebrand = new string(array);
+                return nameToRebrand;
+            }
+            catch (Exception)
+            {
+                return nameToRebrand;
+            }
+        }
 
 
 

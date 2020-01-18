@@ -62,7 +62,7 @@ namespace {namespace}.Entity
                 IMPORTS_STRING = IMPORTS_STRING.Replace("//{ClassProperties}", classProperties);
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{namespace}", ModelNameSpace.ToString().Trim());
                 IMPORTS_STRING = IMPORTS_STRING.Replace("{Table_name}", DataHelpers.Capitalize_FChar(className));
-                IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", className);
+                IMPORTS_STRING = IMPORTS_STRING.Replace("{table_name}", DataHelpers.UnCapitalize_FChar(className));
 
 
                 FINALE_DATA = IMPORTS_STRING;

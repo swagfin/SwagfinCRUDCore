@@ -81,7 +81,7 @@ namespace SwagfinCRUDCore
                 DataHeap = DataHeap.Replace("{database_name}", this.Database_Name);
                 DataHeap = DataHeap.Replace("{namespace}", ModelGenerator.ModelNamespace);
                 DataHeap = DataHeap.Replace("{Table_name}", Capitalize_FChar(this.Table_name));
-                DataHeap = DataHeap.Replace("{table_name}", this.Table_name);
+                DataHeap = DataHeap.Replace("{table_name}", UnCapitalize_FChar(this.Table_name));
                 DataHeap = DataHeap.Replace("{model_name}", this.Model_name);
                 DataHeap = DataHeap.Replace("{unique_identifier}", this.Unique_identifier);
                 DataHeap = DataHeap.Replace("{unique_identifier_param_name}", this.Unique_identifier_param_name);
@@ -131,6 +131,26 @@ namespace SwagfinCRUDCore
                 char[] array = nameToRebrand.ToCharArray();
                 // Uppercase first character.
                 array[0] = char.ToUpper(array[0]);
+                // Return new string.
+                nameToRebrand = new string(array);
+                return nameToRebrand;
+            }
+            catch (Exception)
+            {
+                return nameToRebrand;
+            }
+        }
+
+        #endregion
+
+        #region UNCapitalize_FChar First Character
+        public string UnCapitalize_FChar(string nameToRebrand)
+        {
+            try
+            {
+                char[] array = nameToRebrand.ToCharArray();
+                // Uppercase first character.
+                array[0] = char.ToLower(array[0]);
                 // Return new string.
                 nameToRebrand = new string(array);
                 return nameToRebrand;
