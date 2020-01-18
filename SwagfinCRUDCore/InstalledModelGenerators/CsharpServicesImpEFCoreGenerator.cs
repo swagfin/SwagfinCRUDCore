@@ -18,6 +18,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
                 string className = CurrentTableWithColumns.Table_name;
 
                 string IMPORTS_STRING = @"
+using Microsoft.EntityFrameworkCore;
 using {namespace}.DataAccess;
 using {namespace}.Entity;
 using System;
