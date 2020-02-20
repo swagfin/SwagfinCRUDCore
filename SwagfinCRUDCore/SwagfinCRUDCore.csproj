@@ -73,6 +73,7 @@
     <Compile Include="DataHelpers.cs" />
     <Compile Include="GeneratedModelTemplate.cs" />
     <Compile Include="InstalledModelGenerators\CSharpPlainEntityGenerator.cs" />
+    <Compile Include="InstalledModelGenerators\CsharpServicesImpEFGenerator.cs" />
     <Compile Include="InstalledModelGenerators\CsharpServicesImpEFCoreGenerator.cs" />
     <Compile Include="InstalledModelGenerators\CsharpServicesImplementationGenerator.cs" />
     <Compile Include="InstalledModelGenerators\CsharpServicesGenerator.cs" />

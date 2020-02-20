@@ -19,8 +19,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
             {
                 //Check Name
                 string className = CurrentTableWithColumns.Table_name;
-                string IMPORTS_STRING = @"
-using System;
+                string IMPORTS_STRING = @"using System;
 using System.Data;
 using System.Collections;
 using System.Collections.Generic;

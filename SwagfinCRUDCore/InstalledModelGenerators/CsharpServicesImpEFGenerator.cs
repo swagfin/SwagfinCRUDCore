@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SwagfinCRUDCore.InstalledModelGenerators
 {
-    class CSharpServicesImpEFCoreGenerator : ILanguageModelGenerator
+    class CsharpServicesImpEFGenerator : ILanguageModelGenerator
     {
         protected static string QuotesChar = char.ConvertFromUtf32(34);
 
@@ -17,11 +17,11 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
                 //Check Name
                 string className = CurrentTableWithColumns.Table_name;
 
-                string IMPORTS_STRING = @"using Microsoft.EntityFrameworkCore;
-using {namespace}.DataAccess;
+                string IMPORTS_STRING = @"using {namespace}.DataAccess;
 using {namespace}.Entity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -77,7 +77,7 @@ namespace {namespace}.Services.Implementations
 		
         public void Update({Table_name} {table_name})
 		{
-            Db.{Table_name}s.Update({table_name});
+            Db.Entry({table_name}).State = EntityState.Modified;
             Db.SaveChanges();
 		}
 		

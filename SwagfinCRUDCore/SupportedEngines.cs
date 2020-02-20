@@ -53,12 +53,22 @@ namespace SwagfinCRUDCore
                 },
                 new SupportedEngine
                 {
-                    Engine_Key = "CONLYSERVICESIMPLEMENTATIONEF",
-                    Engine_Name = "C# Entity Framework Interface/Repository Services Implementation (.NET Core Support) Generator",
-                    Engine_Info = "Generate Entity Framework Implementations for the interface repository that you have already generated.",
+                    Engine_Key = "CONLYSERVICESIMPLEMENTATIONEFCORE",
+                    Engine_Name = "C# Entity Framework Interface/Repository Services Implementation (.NET Core) Generator",
+                    Engine_Info = "Generate Entity Framework Implementations for the interface repository that you have already generated for .NET Core.",
                     ModelSaveExtension="Service.cs",
                     ModelSaveSubFolder="Services\\Implementations\\",
                     ModelGenerator = new CSharpServicesImpEFCoreGenerator(),
+                    Dependancies = new List<SupportedEngineDependancy>()
+                },
+                new SupportedEngine
+                {
+                    Engine_Key = "CONLYSERVICESIMPLEMENTATIONEF",
+                    Engine_Name = "C# Entity Framework Interface/Repository Services Implementation (.NET Framework) Generator",
+                    Engine_Info = "Generate Entity Framework Implementations for the interface repository that you have already generated for .NET Framework.",
+                    ModelSaveExtension="Service.cs",
+                    ModelSaveSubFolder="Services\\Implementations\\",
+                    ModelGenerator = new CsharpServicesImpEFGenerator(),
                     Dependancies = new List<SupportedEngineDependancy>()
                 },
 
