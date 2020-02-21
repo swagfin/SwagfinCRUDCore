@@ -309,45 +309,6 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
             try
             {
                 string FINALE_CREATE_STRING = "//#Read all records DataTable for Table " + TableData.Table_name;
-
-                // #-------------------THE SAME SAME CODE WILL BE USED TO GENERATE THAT FOR LIST--------------------
-                string RE_USABLE_CODE_BLOCK = "";
-
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "string LIMIT_QUERYY = " + QuotesChar + ";" + QuotesChar + ";";
-
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "if (pageSize.Trim().ToUpper() != " + QuotesChar + "ALL" + QuotesChar + ")";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "{";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + " decimal New_pageSize;";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "if (decimal.TryParse(pageSize, out New_pageSize))";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "{";
-
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "//@CHECK RECORDS";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "if(totalRecords < 1)" + Environment.NewLine + "{";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "totalRecords = this." + TableData.Get_rowcount_all + "();";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "}";
-
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "decimal totalPages = (totalRecords / New_pageSize);";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "totalPages = Math.Ceiling(totalPages);";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "//@Check PageNo is Greater";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "if(pageNo > totalPages)" + Environment.NewLine + "{";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "pageNo = int.Parse(totalPages.ToString());";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "}";
-
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "//@CALCAUTE WHERE RECORDS WILL START : Algorithim Simple Math";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "int recordStart = int.Parse(((New_pageSize * pageNo) - New_pageSize).ToString());";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "//@Check if Start is Less than Zero";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "if(recordStart < 0)" + Environment.NewLine + "{";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "recordStart = 0;";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "}";
-
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "// #CHANGE LIMIT";
-
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "LIMIT_QUERYY =" + QuotesChar + " limit " + QuotesChar + "+ recordStart.ToString() + " + QuotesChar + ", " + QuotesChar + "+ pageSize.ToString() + " + QuotesChar + ";" + QuotesChar + ";";
-
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + "  }";
-                RE_USABLE_CODE_BLOCK += Environment.NewLine + " }";
-                // #-----------------------END OF RE-USABLE CODE------------------------------------------------------
-
                 FINALE_CREATE_STRING += Environment.NewLine + "public DataTable " + TableData.Get_datatable_data + "(string pageSize = " + QuotesChar + "ALL" + QuotesChar + ", decimal pageNo = 1, decimal totalRecords = 0)" + Environment.NewLine + "{" + Environment.NewLine;
 
 
@@ -371,11 +332,7 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
                 // TRY GEN
                 FINALE_CREATE_STRING += Environment.NewLine + "try";
                 FINALE_CREATE_STRING += Environment.NewLine + "{";
-                // #ATTACH RE-USABLE CODE
-                FINALE_CREATE_STRING += Environment.NewLine + RE_USABLE_CODE_BLOCK;
-
                 FINALE_CREATE_STRING += Environment.NewLine + Environment.NewLine + "string Sql =" + QuotesChar + GENERATE_sQL_STRING + QuotesChar + ";";
-                FINALE_CREATE_STRING += Environment.NewLine + "Sql += LIMIT_QUERYY;";
                 FINALE_CREATE_STRING += Environment.NewLine;
 
                 FINALE_CREATE_STRING += Environment.NewLine + TableData.Db_connvariable + ".Open();";
@@ -396,58 +353,6 @@ namespace SwagfinCRUDCore.InstalledModelGenerators
                 FINALE_CREATE_STRING += Environment.NewLine + "{";
                 FINALE_CREATE_STRING += Environment.NewLine + TableData.Db_connvariable + ".Close();";
                 FINALE_CREATE_STRING += Environment.NewLine + "}";
-
-                FINALE_CREATE_STRING += Environment.NewLine + Environment.NewLine + "}";
-
-                // @----------------------------------LETS ADD OBJECTS METHOD OVERLOAD-----------------
-
-                FINALE_CREATE_STRING += Environment.NewLine + Environment.NewLine + "//#Read all records list for Table " + TableData.Table_name;
-                FINALE_CREATE_STRING += Environment.NewLine + "public List<" + TableData.Model_name + "> " + TableData.Get_list_data + "(string pageSize = " + QuotesChar + "ALL" + QuotesChar + ", decimal pageNo = 1, decimal totalRecords = 0)" + Environment.NewLine + "{" + Environment.NewLine;
-                FINALE_CREATE_STRING += Environment.NewLine + "List<" + TableData.Model_name + "> new_List = new List<" + TableData.Model_name + ">();";
-
-                FINALE_CREATE_STRING += Environment.NewLine + "try";
-                FINALE_CREATE_STRING += Environment.NewLine + "{";
-
-                // #ATTACH RE-USABLE CODE
-                FINALE_CREATE_STRING += Environment.NewLine + RE_USABLE_CODE_BLOCK;
-
-                FINALE_CREATE_STRING += Environment.NewLine + Environment.NewLine + "string Sql =" + QuotesChar + GENERATE_sQL_STRING + QuotesChar + ";";
-                FINALE_CREATE_STRING += Environment.NewLine + "Sql += LIMIT_QUERYY;";
-                FINALE_CREATE_STRING += Environment.NewLine;
-
-                FINALE_CREATE_STRING += Environment.NewLine + TableData.Db_connvariable + ".Open();";
-                FINALE_CREATE_STRING += Environment.NewLine + "OleDbCommand Command= new OleDbCommand(Sql," + TableData.Db_connvariable + ");";
-
-                FINALE_CREATE_STRING += Environment.NewLine + "OleDbDataReader feedback = Command.ExecuteReader();";
-                FINALE_CREATE_STRING += Environment.NewLine + "while (feedback.Read())" + Environment.NewLine + "{";
-                // ##WE MUST PUT A TRY CATCH HERE
-                FINALE_CREATE_STRING += Environment.NewLine + "try" + Environment.NewLine + "{";
-                FINALE_CREATE_STRING += Environment.NewLine + TableData.Model_name + " new_instance = new " + TableData.Model_name + "();";
-                FINALE_CREATE_STRING += Environment.NewLine + GENERATED_GET_OBJ;
-                FINALE_CREATE_STRING += Environment.NewLine + "new_List.Add(new_instance);";
-                // #End Try
-                FINALE_CREATE_STRING += Environment.NewLine + "}";
-                FINALE_CREATE_STRING += Environment.NewLine + "catch (Exception ex)";
-                FINALE_CREATE_STRING += Environment.NewLine + "{";
-                FINALE_CREATE_STRING += Environment.NewLine + " throw new Exception(ex.Message); ";
-                FINALE_CREATE_STRING += Environment.NewLine + "}";
-                // ##END TRY
-
-                FINALE_CREATE_STRING += Environment.NewLine + "}";
-                FINALE_CREATE_STRING += Environment.NewLine + "//@CLOSE READER";
-                FINALE_CREATE_STRING += Environment.NewLine + "feedback.Close();";
-
-                FINALE_CREATE_STRING += Environment.NewLine + "}";
-
-                FINALE_CREATE_STRING += Environment.NewLine + "catch (Exception ex)";
-                FINALE_CREATE_STRING += Environment.NewLine + "{";
-                FINALE_CREATE_STRING += Environment.NewLine + " throw new Exception(ex.Message); ";
-                FINALE_CREATE_STRING += Environment.NewLine + "}";
-                FINALE_CREATE_STRING += Environment.NewLine + "finally";
-                FINALE_CREATE_STRING += Environment.NewLine + "{";
-                FINALE_CREATE_STRING += Environment.NewLine + TableData.Db_connvariable + ".Close();";
-                FINALE_CREATE_STRING += Environment.NewLine + "}";
-                FINALE_CREATE_STRING += Environment.NewLine + "return new_List;";
 
                 FINALE_CREATE_STRING += Environment.NewLine + Environment.NewLine + "}";
 
