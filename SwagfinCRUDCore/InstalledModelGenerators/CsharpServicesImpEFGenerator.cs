@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Data.Entity.Migrations;
 
 namespace {namespace}.Services.Implementations
 {
@@ -77,7 +78,8 @@ namespace {namespace}.Services.Implementations
 		
         public void Update({Table_name} {table_name})
 		{
-            Db.Entry({table_name}).State = EntityState.Modified;
+            //Db.Entry({table_name}).State = EntityState.Modified;
+            Db.{Table_name}s.AddOrUpdate({table_name});
             Db.SaveChanges();
 		}
 		
@@ -91,8 +93,7 @@ namespace {namespace}.Services.Implementations
 		
         public void Remove({Table_name} {table_name})
 		{
-            Db.{Table_name}s.Remove({table_name});
-            Db.SaveChanges();
+            Remove({table_name}.{unique_identifier});
 		}
 		
         public Task RemoveAsync({Table_name} {table_name})
@@ -106,7 +107,8 @@ namespace {namespace}.Services.Implementations
         public void Remove({unique_identifier_datatype_ide} {unique_identifier})
 		{
             var {table_name} = Get({unique_identifier});
-            Remove({table_name});
+            Db.{Table_name}s.Remove({table_name});
+            Db.SaveChanges();
 		}
 		
         public Task RemoveAsync({unique_identifier_datatype_ide} {unique_identifier})
